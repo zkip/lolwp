@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Atlas>
+    <Texture filename="lol_wp_pedia_scrollablelist.tex"/>
+    <Elements>
+        <Element name="bar.tex" u1="0.000976563" u2="0.0126953" v1="0.22168" v2="0.999023"/>
+        <Element name="down.tex" u1="0.000976563" u2="0.0888672" v1="0.0615234" v2="0.219727"/>
+        <Element name="handle.tex" u1="0.0146484" u2="0.0791016" v1="0.745117" v2="0.838867"/>
+        <Element name="up.tex" u1="0.0146484" u2="0.102539" v1="0.84082" v2="0.999023"/>
+    </Elements>
+    <StraightAlpha>false</StraightAlpha>
+</Atlas>
+

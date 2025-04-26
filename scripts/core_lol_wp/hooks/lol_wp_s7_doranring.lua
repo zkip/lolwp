@@ -1,0 +1,29 @@
+-- local modid = 'lol_wp'
+
+-- AddComponentPostInit('combat',function (self)
+--     local old_GetAttacked = self.GetAttacked
+--     function self:GetAttacked(attacker,damage,weapon,stimuli,spdamage,...)
+--         if stimuli and stimuli == 'lol_wp_trinity_terraprisma' and attacker and attacker.damage_from_lol_wp_trinity_terraprisma_amulet then
+--         else
+--             if attacker then
+--                 local isequipped = false
+--                 if attacker.components.inventory and attacker.components.inventory:EquipHasTag('lol_wp_s7_doranring') then
+--                     isequipped = true
+--                 end
+--                 local isEyeStone = false
+--                 local equip = LOLWP_U:getEquipInEyeStone(attacker,'lol_wp_s7_doranring')
+--                 if equip then
+--                     isequipped = true
+--                     isEyeStone = true
+--                 end
+--                 if isequipped then
+--                     if spdamage == nil then
+--                         spdamage = {}
+--                     end
+--                     spdamage['planar'] = (spdamage['planar'] or 0) + (TUNING[string.upper('CONFIG_'..modid..'lol_wp_eyestone_item_effect_half')] and isequipped and isEyeStone and TUNING.MOD_LOL_WP.DORANRING.PLANAR_DMG_WHEN_EQUIP/2 or TUNING.MOD_LOL_WP.DORANRING.PLANAR_DMG_WHEN_EQUIP)
+--                 end
+--             end
+--         end
+--         return old_GetAttacked(self,attacker,damage,weapon,stimuli,spdamage,...)
+--     end
+-- end)

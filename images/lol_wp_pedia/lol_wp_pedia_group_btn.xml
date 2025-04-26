@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Atlas>
+    <Texture filename="lol_wp_pedia_group_btn.tex"/>
+    <Elements>
+        <Element name="tab.tex" u1="0.000976563" u2="0.491211" v1="0.525391" v2="0.998047"/>
+        <Element name="tab_over.tex" u1="0.493164" u2="0.983398" v1="0.525391" v2="0.998047"/>
+        <Element name="tab_selected.tex" u1="0.000976563" u2="0.491211" v1="0.0488281" v2="0.521484"/>
+    </Elements>
+    <StraightAlpha>false</StraightAlpha>
+</Atlas>
+
