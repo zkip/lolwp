@@ -1,0 +1,21 @@
+## 设计目标
+解决竞态条件，分解副作用
+设想下面的场景
+
+```lua
+-- other mod
+-- health.max: 100
+health.max = health.max + 1000
+-- data: { max = 100 }; provider: { max = 1000 }; final_result: { max = 1100 }
+health.max = 125
+-- data: { max = 125 }; provider: { max = 1000 }; final_result: { max = 1125 }
+
+```
+
+- 
+- 为每个 Provider 提供一个作用范围，能仅改变所属作用域的值
+	- 使用 Commit 提交指定 Provider 的更改，不影响 host_data，但会使代理值发生变化
+- 改变 host 被代理的值时，将反应到内置变量 host_data 上（每个 host 有一个），不影响所有 providers 的值
+	例如 sanity.max = 200，其中 provider 为 { max = 30 }, host_data 为 { max = 100 }，最终会得到结果 provider: { max = 30 }; host_data: { max = 200 }
+- 代理值的返回值由 host_data 和 provider_data 共同组成，例如 sanity.max 是将它们求和
+- 退出时消除所有作用域，并将 host_data 恢复到 host 上

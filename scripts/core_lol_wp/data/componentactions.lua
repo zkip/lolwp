@@ -693,8 +693,19 @@ local data = {
         ---@param right any
         ---@return unknown
         testfn = function (inst, doer, actions, right)
+            -- TODO: 请重新考虑是否能放入，仅无效即可？
+            -- TODO: 另考虑优化判断没有耐久的逻辑
+            local no_finite_uses = inst:HasTag(inst.prefab..'_nofiniteuses')
+            -- 仅需要专属槽位的装备才能直接右键放到已装备的眼石中去。如果是需要其它槽位的话，需要优先考虑它所需的槽位，这符合使用习惯
+            local is_lolwp_slot = LOLWP_S:isEquipSlot(inst, EQUIPSLOTS.LOL_WP)
+            local need_cangoineeyestone =
+                doer:HasTag('player') and not inst:HasTag('is_in_lol_wp_eyestone')
+                and doer.replica.inventory and doer.replica.inventory:EquipHasTag('lol_wp_eyestone') and inst.prefab
+                and not no_finite_uses
+                and is_lolwp_slot
+                
             -- 通常判断
-            if doer:HasTag('player') and not inst:HasTag('is_in_lol_wp_eyestone') and doer.replica.inventory and doer.replica.inventory:EquipHasTag('lol_wp_eyestone') and inst.prefab and not inst:HasTag(inst.prefab..'_nofiniteuses') then
+            if need_cangoineeyestone then
                 local allow = true
                 -- 特殊判断 例如 多形态
                 if inst.cangoineyestone and not inst.cangoineyestone(inst) then

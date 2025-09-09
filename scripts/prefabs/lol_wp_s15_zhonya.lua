@@ -107,7 +107,7 @@ local function fn()
     inst.components.armor:InitIndestructible(db.ABSORB)
 
     inst:AddComponent("equippable")
-    inst.components.equippable.equipslot = EQUIPSLOTS.NECK or EQUIPSLOTS.BODY
+    inst.components.equippable.equipslot = EQUIPSLOTS.LOL_WP or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY
     inst.components.equippable:SetOnEquip(onequip)
     inst.components.equippable:SetOnUnequip(onunequip)
     -- inst.components.equippable.walkspeedmult = .8

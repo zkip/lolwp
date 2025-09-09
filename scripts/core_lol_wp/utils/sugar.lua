@@ -206,6 +206,74 @@ function tool:getAllEquipments(player)
     return equips
 end
 
+local function merge(t1, t2)
+    local t = {}
+    for k, v in pairs(t1) do
+        t[k]=v
+    end
+    for k, v in pairs(t2) do
+        t[k]=v
+    end
+    return t
+end
+
+---分别获取眼石外盒眼石内的装备
+---@param inventory Component
+---@return table<string, ent>, table<string, ent> # 返回 { prefab: Entity }, { prefab: Entity }
+local function getEquipmentForKinds(inventory)
+    local equip_slots = inventory and inventory.equipslots or {}
+    local inEyestoneEquips = {}
+    local outsideEyestoneEquips = {}
+    
+    local eyestone_slots = {}
+    
+    for _, v in pairs(equip_slots) do
+        -- TODO: PrefabID 聚合管理
+        local isEyeStone = v.prefab == 'lol_wp_s9_eyestone_low' or v.prefab == 'lol_wp_s9_eyestone_high'
+        if isEyeStone then
+            eyestone_slots = v.components.container and v.components.container.slots
+        end
+        outsideEyestoneEquips[v.prefab] = v
+    end
+    
+    for _, v in pairs(eyestone_slots or {}) do
+        inEyestoneEquips[v.prefab] = v
+    end
+
+    return outsideEyestoneEquips, inEyestoneEquips
+end
+
+---根据 Prefab 分别获取眼石外的装备和眼石内的
+---@param inventory Component
+---@param prefab string
+---@return ent, ent # 返回一个眼石外的装备和眼石内的
+function tool:findEquipment(inventory, prefab)
+	local outsideEyestoneEquips, insideEyestoneEquips = getEquipmentForKinds(inventory, prefab)
+    local equips = merge(outsideEyestoneEquips, insideEyestoneEquips)
+    local inEyestone = insideEyestoneEquips[prefab]
+    return outsideEyestoneEquips[prefab], insideEyestoneEquips[prefab]
+end
+
+---获取所有装备（包括眼石里面的）
+---@param inventory Component
+---@param prefab string
+---@return table<string,ent> # 返回 { prefab: Entity }
+function tool:findEquipmentIncludeEyestone(inventory, prefab)
+	local outsideEyestoneEquips, insideEyestoneEquips = getEquipmentForKinds(inventory, prefab)
+    return merge(outsideEyestoneEquips, insideEyestoneEquips)
+end
+
+---对比物品的装备槽位是否和给定的一致
+---@param inst ent
+---@param prefab string
+---@return boolean # 返回 { prefab: Entity }
+function tool:isEquipSlot(inst, equipslot)
+    if inst and inst.components.equippable then
+        return inst.components.equippable.equipslot == equipslot
+    end
+    return false
+end
+
 ---真伤
 ---@param dmg number
 ---@param victim ent

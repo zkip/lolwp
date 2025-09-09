@@ -317,18 +317,18 @@ local tagprefix = 'lol_wp_s9_eyestone_'
 ---@type table<string,eyestone_itm_data>
 local RULES = { -- 设置能进容器的所有amulet
     -- 女神之泪
-    lol_wp_s7_tearsofgoddess = {
-        onequip = function(inst,owner)
-            if inst.components.lol_wp_s7_tearsofgoddess then
-                inst.components.lol_wp_s7_tearsofgoddess:WhenEquip(owner)
-            end
-        end,
-        onunequip = function(inst,owner)
-            if inst.components.lol_wp_s7_tearsofgoddess then
-                inst.components.lol_wp_s7_tearsofgoddess:WhenUnEquip(owner)
-            end
-        end,
-    },
+    -- lol_wp_s7_tearsofgoddess = {
+    --     onequip = function(inst,owner)
+    --         if inst.components.lol_wp_s7_tearsofgoddess then
+    --             inst.components.lol_wp_s7_tearsofgoddess:WhenEquip(owner)
+    --         end
+    --     end,
+    --     onunequip = function(inst,owner)
+    --         if inst.components.lol_wp_s7_tearsofgoddess then
+    --             inst.components.lol_wp_s7_tearsofgoddess:WhenUnEquip(owner)
+    --         end
+    --     end,
+    -- },
     -- 多兰之戒
     lol_wp_s7_doranring = {
         onequip = function(inst,owner)
@@ -619,6 +619,83 @@ for k,v in pairs(RULES) do
             for _,event_data in ipairs(v.allevent) do
                 inst:ListenForEvent(event_data.event,event_data.fn)
             end
+        end
+    end)
+end
+
+local AllItems = { -- 所有物品
+    lol_wp_s7_cull = '萃取',
+    lol_wp_s7_obsidianblade = '黑曜石锋刃',
+    lol_wp_s7_doranblade = '多兰之刃',
+    lol_wp_s7_doranshield = '多兰之盾',
+    lol_wp_s7_doranring = '多兰之戒',
+    lol_wp_s7_tearsofgoddess = '女神之泪',
+    gallop_breaker = '破舰者',
+    gallop_whip = '铁刺鞭',
+    gallop_bloodaxe = '渴血战斧',
+    lol_heartsteel = '心之钢',
+    gallop_tiamat = '提亚马特',
+    gallop_hydra = '巨型九头蛇',
+    riftmaker_weapon = '峡谷制造者',
+    nashor_tooth = '纳什之牙',
+    crystal_scepter = '瑞莱的冰晶节杖',
+    gallop_blackcutter = '黑色切割者',
+    gallop_brokenking = '破败王者之刃',
+    gallop_ad_destroyer = '挺进破坏者',
+    lol_wp_trinity = '三相之力',
+    lol_wp_sheen = '耀光',
+    lol_wp_divine = '神圣分离者',
+    lol_wp_overlordbloodarmor = '霸王血铠',
+    lol_wp_demonicembracehat = '恶魔之拥',
+    lol_wp_warmogarmor = '狂徒铠甲',
+    lol_wp_s8_deathcap = '灭世者的死亡之帽',
+    lol_wp_s8_uselessbat = '无用大棒',
+    lol_wp_s8_lichbane = '巫妖之祸',
+    lol_wp_s9_guider = '引路者',
+    lol_wp_s9_eyestone_low = '戒备眼石',
+    lol_wp_s9_eyestone_high = '警觉眼石',
+    lol_wp_s10_guinsoo = '鬼索的狂暴之刃',
+    lol_wp_s10_blastingwand = '爆裂魔杖',
+    lol_wp_s10_sunfireaegis = '日炎圣盾',
+    lol_wp_s11_amplifyingtome = '增幅典籍',
+    lol_wp_s11_darkseal = '黑暗封印',
+    lol_wp_s11_mejaisoulstealer = '梅贾的窃魂卷',
+    lol_wp_s12_eclipse = '星蚀',
+    lol_wp_s12_malignance = '焚天',
+    alchemy_chainsaw = '炼金朋克链锯剑',
+    lol_wp_s13_infinity_edge = '无尽之刃',
+    lol_wp_s13_statikk_shiv = '斯塔缇克电刃',
+    lol_wp_s13_statikk_shiv_charged = '斯塔缇克电刀',
+    lol_wp_s13_collector = '收集者',
+    lol_wp_s14_bramble_vest = '棘刺背心',
+    lol_wp_s14_thornmail = '荆棘之甲',
+    lol_wp_s14_hubris = '狂妄',
+    lol_wp_s15_crown_of_the_shattered_queen = '破碎王后之冕',
+    lol_wp_s15_stopwatch = '秒表',
+    lol_wp_s15_zhonya = '中娅沙漏',
+    lol_wp_s16_potion_hp = '生命药水',
+    lol_wp_s16_potion_compound = '复用型药水',
+    lol_wp_s16_potion_corruption = '腐败药水',
+    lol_wp_s17_luden = '卢登的回声',
+    lol_wp_s17_liandry = '兰德里的折磨',
+    lol_wp_s17_lostchapter = '遗失的章节',
+    lol_wp_s18_bloodthirster = '饮血剑',
+    lol_wp_s18_stormrazor = '岚切',
+    lol_wp_s18_krakenslayer = '海妖杀手',
+    lol_wp_s19_archangelstaff = '大天使之杖',
+    lol_wp_s19_archangelstaff_upgrade = '炽天使之拥',
+    lol_wp_s19_muramana = '魔宗',
+    lol_wp_s19_muramana_upgrade = '魔切',
+    lol_wp_s19_fimbulwinter_armor = '凛冬之临',
+    lol_wp_s19_fimbulwinter_armor_upgrade = '末日寒冬',
+}
+
+for prefabId, v in pairs(AllItems) do
+    AddPrefabPostInit(prefabId, function(inst)
+        inst:AddTag('lol_wp_item')
+        local isEyeStone = prefabId == 'lol_wp_s9_eyestone_low' or prefabId == 'lol_wp_s9_eyestone_high'
+        if not inst.components.cangoineyestone and not isEyeStone then
+            inst:AddComponent('cangoineyestone')
         end
     end)
 end

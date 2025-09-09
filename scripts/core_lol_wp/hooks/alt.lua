@@ -28,12 +28,16 @@ AddComponentPostInit("playervision", function(self)
             inst.AnimState:SetDeltaTimeMultiplier(math.min(2.5, (new_attackspeed / orange_attackspeed)))
             inst.lolwp_remove_sgtag_task = inst:DoTaskInTime(newperiod,
                 function()
-                    inst.sg:RemoveStateTag("attack")
-                    inst.sg:AddStateTag("idle")
+                    if inst.sg then
+                        inst.sg:RemoveStateTag("attack")
+                        inst.sg:AddStateTag("idle")
+                    end
                     if TheWorld.ismastersim then
                         inst:PerformBufferedAction()
                     end
-                    inst.sg:RemoveStateTag("abouttoattack")
+                    if inst.sg then
+                        inst.sg:RemoveStateTag("abouttoattack")
+                    end
                 end)
         end
     end)

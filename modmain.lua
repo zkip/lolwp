@@ -3,6 +3,8 @@
 GLOBAL.setmetatable(env, {
     __index = function(t, k) return GLOBAL.rawget(GLOBAL, k) end
 })
+GLOBAL.EQUIPSLOTS.LOL_WP = "lol_wp"
+
 modimport("scripts/apis.lua")
 TUNING.BLOODAXE_HEALTH_DELTA = GetConfig("bloodaxe_health") or 3
 local mod_prefix = "gallopweapon"
@@ -29,6 +31,7 @@ function demand(x)
     package.loaded[script_prefix .. x] = ret
     return ret
 end
+
 PrefabFiles = {
     "gallop_breaker", "gallopweapon_fx", "gallop_whip", "gallopweapon_reticule",
     "gallop_bloodaxe_fx", "gallop_laser", "gallop_shadow_pillar", --
@@ -96,7 +99,7 @@ for _,v in ipairs(chainsaw_1737852586) do
     table.insert(Assets,v)
 end
 
-modimport "main/chainsaw_pity_power"
+-- modimport "main/chainsaw_pity_power"
 
 AddRecipe2("alchemy_chainsaw", 
 {Ingredient("wagpunkbits_kit", 1), Ingredient("wagpunk_bits", 6), Ingredient("gears", 10), Ingredient("transistor", 4), Ingredient("trinket_6", 6)},
@@ -235,6 +238,10 @@ AddStategraphActionHandler("wilson_client", ActionHandler(ACTIONS.CHAINSAW_PITY)
 modimport("scripts/gallop_h_t.lua")
 modimport("scripts/lol_heartsteel.lua")
 
+modimport("scripts/hooks/stategraph_and_actions.lua")
+modimport("scripts/hooks/passives_and_buffs.lua")
+
+
 STRINGS.NAMES.GALLOP_WHIP = "铁刺鞭"
 STRINGS.RECIPE_DESC.GALLOP_WHIP = "用尖刺鞭打！"
 STRINGS.ACTIONS.CASTAOE.GALLOP_BLOODAXE = "饥渴斩击"
@@ -368,6 +375,7 @@ function Inventory:ApplyDamage(damage, attacker, weapon, spdamage)
 
     return leftover_damage, spdamage
 end
+
 -- dreadclub upgrade
 UPGRADETYPES.GALLOP_DREADCLUB = "gallop_dreadclub"
 local function CompensateDreadClub()
@@ -840,7 +848,6 @@ local LAN_NEW_ORDER_RECIPE = {
         'lol_wp_s9_guider',
 }
 
-
 local function SortRecipe(a, b, filter_name, offset)
     local filter = CRAFTING_FILTERS[filter_name]
     if filter and filter.recipes then
@@ -867,3 +874,48 @@ local function sortAfter(a, b, filter_name) SortRecipe(a, b, filter_name, 1) end
 for i = 1, #LAN_NEW_ORDER_RECIPE - 1 do
     sortAfter(LAN_NEW_ORDER_RECIPE[i + 1], LAN_NEW_ORDER_RECIPE[i], 'TAB_LOL_WP')
 end
+
+-- WARNING: 上线前请注释，仅在开发时使用
+-- WARNING: 上线前请注释，仅在开发时使用
+-- WARNING: 上线前请注释，仅在开发时使用
+GLOBAL.c_reload = function()
+    GLOBAL.StartNextInstance({
+        reset_action = GLOBAL.RESET_ACTION.LOAD_SLOT,
+        save_slot = GLOBAL.SaveGameIndex:GetCurrentSaveSlot()
+    })
+end
+
+AddSimPostInit(function ()
+    -- 在世界初始化后才进行加载，确保处于最后执行的时机
+    AddClassPostConstruct("widgets/inventorybar", function(inventorybar)
+        inventorybar:AddEquipSlot(EQUIPSLOTS.LOL_WP, "images/slotbg/eyestone_slotbg.xml", "eyestone_slotbg.tex")
+
+        local function refreshBgLength(inst)
+            local inventory = inst.owner.replica.inventory
+            local extra_num_slots = inventory:GetNumSlots() - 15
+            local extra_equipslots = #inst.equipslotinfo - 3
+            
+            -- 该算法中每个额外槽位增加的宽度缩放比例(0.06)基于 https://steamcommunity.com/sharedfiles/filedetails/?id=2283028733, https://steamcommunity.com/sharedfiles/filedetails/?id=3026138806
+            -- --1.35 - 0.1266666 + (setting_maxitemslots*0.0633333)
+            -- 经测试表现良好
+            local bar_bg_length = 1.22 + extra_num_slots * 0.06 + extra_equipslots * 0.06
+            
+            inst.bg:SetScale(bar_bg_length, 1, 1)
+            inst.bgcover:SetScale(bar_bg_length, 1, 1)
+        end
+
+        local refresh = inventorybar.Refresh
+        local rebuild = inventorybar.Rebuild
+
+        function inventorybar:Refresh()
+            if refresh then refresh(self) end
+            refreshBgLength(self)
+        end
+
+        function inventorybar:Rebuild()
+            if rebuild then rebuild(self) end
+            refreshBgLength(self)
+        end
+    end
+    )
+end)

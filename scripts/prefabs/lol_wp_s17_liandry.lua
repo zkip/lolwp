@@ -62,7 +62,9 @@ local function makeLiandry()
                                 if LOLWP_S:checkAlive(target) then
                                     local tar_maxhp = target.components.health.maxhealth
                                     local planar_dmg = tar_maxhp * db.SKILL_TORMENT.MAXHP_PERCENT_PLANAR_DMG
-                                    target.components.combat:GetAttacked(owner,0,nil,nil,{planar = planar_dmg})
+                                    if target.components.combat then
+                                        target.components.combat:GetAttacked(owner,0,nil,nil,{planar = planar_dmg})
+                                    end
                                 end
                             end)
                         end

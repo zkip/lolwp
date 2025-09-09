@@ -199,6 +199,8 @@ modimport('scripts/core_'..modid..'/callers/caller_onlyusedby.lua')
 modimport('scripts/core_'..modid..'/ui/lol_wp_pedia.lua')
 
 -- 注册客机组件
+-- AddReplicableComponent('lolwp_buff_owner')
+AddReplicableComponent('lolwp_passive_controller')
 AddReplicableComponent('lol_wp_s7_cull_counter')
 AddReplicableComponent('lol_wp_s7_tearsofgoddess')
 AddReplicableComponent('lol_wp_s11_darkseal_num')
@@ -214,7 +216,6 @@ AddReplicableComponent('count_from_tearsofgoddness')
 modimport('scripts/core_'..modid..'/hooks/RegisterInventoryItemAtlas.lua') -- 注册inv图片
 modimport('scripts/core_'..modid..'/hooks/sup.lua') -- 置顶
 modimport('scripts/core_'..modid..'/hooks/lol_wp_dmgsys.lua') -- 伤害系统
-modimport('scripts/core_'..modid..'/hooks/a.lua')
 modimport('scripts/core_'..modid..'/hooks/fix_bug_souljump.lua')
 modimport('scripts/core_'..modid..'/hooks/lol_wp_sheen.lua')
 modimport('scripts/core_'..modid..'/hooks/lol_wp_divine.lua')

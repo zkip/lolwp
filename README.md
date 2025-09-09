@@ -37,3 +37,17 @@ Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN�
 4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
 5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
 6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+
+## LICENSE
+project-root/
+├── README.md
+├── LICENSE                # MIT-0许可证
+├── LICENSE-MIT            # MIT许可证
+├── src/
+│   ├── module1/
+│   │   └── file1.js       # 使用MIT许可证
+│   ├── module2/
+│   │   └── file2.js       # 使用MIT许可证
+│   └── main.js            # 使用MIT-0许可证
+└── utils/
+    └── helper.js          # 使用MIT许可证

@@ -69,7 +69,7 @@ local function fn()
     inst:AddComponent("inspectable")
 
     inst:AddComponent("equippable")
-    inst.components.equippable.equipslot = EQUIPSLOTS.NECK or EQUIPSLOTS.BODY -- 适配五格
+    inst.components.equippable.equipslot = EQUIPSLOTS.LOL_WP or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY -- 适配五格
     inst.components.equippable:SetOnEquip(onequip)
     inst.components.equippable:SetOnUnequip(onunequip)
     

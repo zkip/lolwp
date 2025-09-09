@@ -67,6 +67,7 @@ local function onattack(inst,attacker,target)
 
     -- 吸血
     if target and not target:HasTag('structure') and not target:HasTag('wall') and target:HasTag('epic') then
+        print(attacker.is_tri_atk, "::::::::lol_wp_s12_malignance")
 ---@diagnostic disable-next-line: undefined-field
         if attacker and attacker.is_tri_atk then
             local player = attacker

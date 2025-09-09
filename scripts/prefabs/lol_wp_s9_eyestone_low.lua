@@ -9,8 +9,24 @@ local assets =
     Asset("ATLAS", "images/inventoryimages/"..assest_id..".xml"),
 }
 
+local function genAttackOtherFn(inst, owner)
+    return function (_, data)
+        local slots = inst.components.container and inst.components.container.slots
+        if slots then
+            for _, item in pairs(slots) do
+                if item and item.components.weapon then
+                    item.components.weapon.onattack(item, owner, data.target)
+                end
+            end
+        end
+    end
+end
+
 local function onequip(inst, owner)
     owner.AnimState:OverrideSymbol("swap_body", "torso_"..assest_id, assest_id)
+
+    inst._attackCallback = genAttackOtherFn(inst, owner)
+    owner:ListenForEvent("onattackother", inst._attackCallback)
 
     if not inst.lol_wp_s9_eyestone_low_isequip then
         inst.components.container:Open(owner)
@@ -21,6 +37,9 @@ end
 
 local function onunequip(inst, owner)
     owner.AnimState:ClearOverrideSymbol("swap_body")
+
+    if inst._attackCallback then owner:RemoveEventCallback("onattackother", inst._attackCallback) end
+    inst._attackCallback = nil
 
     if inst.lol_wp_s9_eyestone_low_isequip then
         if inst.components.container ~= nil then
@@ -69,7 +88,7 @@ local function fn()
     inst:AddComponent("inspectable")
 
     inst:AddComponent("equippable")
-    inst.components.equippable.equipslot = EQUIPSLOTS.NECK or EQUIPSLOTS.BODY -- 适配五格
+    inst.components.equippable.equipslot = EQUIPSLOTS.LOL_WP or EQUIPSLOTS.NECK or EQUIPSLOTS.BODY -- 适配五格
     inst.components.equippable:SetOnEquip(onequip)
     inst.components.equippable:SetOnUnequip(onunequip)
     

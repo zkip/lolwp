@@ -32,8 +32,9 @@ local function itemtest_eyestone(container, item, slot)
     if itm_prefab and item:HasTag(itm_prefab..'_nofiniteuses') then
         return false
     end
+    local isEyeStone = itm_prefab == 'lol_wp_s9_eyestone_low' or itm_prefab == 'lol_wp_s9_eyestone_high'
     -- 有这个标签的物品才能放入, 且满足判断条件
-    if item:HasTag('lol_wp_s9_eyestone_confirm_amulet') then
+    if item:HasTag('lol_wp_item') and not isEyeStone then
         if item.cangoineyestone then
             return item.cangoineyestone(item,container.inst) -- 如果不满足条件 则直接返回
         end

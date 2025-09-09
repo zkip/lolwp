@@ -271,20 +271,20 @@ function (self)
             end
 
             -- s19 魔宗  被动：【敬畏】获得2%最大理智值的额外物理伤害。
-            if weapon_prefab and sanity_max then
-                local physics_extra_lol_wp_s19_archangelstaff_san_percent = (weapon_prefab == 'lol_wp_s19_muramana' and TUNING.MOD_LOL_WP.MURAMANA.SKILL_FEAR.SAN_PERCENT) or (weapon_prefab == 'lol_wp_s19_muramana_upgrade' and TUNING.MOD_LOL_WP.MURAMANA.UPGRADE.SKILL_FEAR.SAN_PERCENT) or 0
-                local planar_extra_lol_wp_s19_archangelstaff_san_percent = (weapon_prefab == 'lol_wp_s19_muramana_upgrade' and TUNING.MOD_LOL_WP.MURAMANA.UPGRADE.SKILL_SLASH.SAN_PERCENT) or 0
-                if physics_extra_lol_wp_s19_archangelstaff_san_percent > 0 then
-                    local extra_physics_dmg = sanity_max * physics_extra_lol_wp_s19_archangelstaff_san_percent
-                    damage = (damage or 0) + extra_physics_dmg
-                end
-                if planar_extra_lol_wp_s19_archangelstaff_san_percent > 0 then
-                    local extra_planar_dmg = sanity_max * planar_extra_lol_wp_s19_archangelstaff_san_percent
-                    if spdamage then
-                        spdamage.planar = (spdamage.planar or 0) + extra_planar_dmg
-                    end
-                end
-            end
+            -- if weapon_prefab and sanity_max then
+            --     local physics_extra_lol_wp_s19_archangelstaff_san_percent = (weapon_prefab == 'lol_wp_s19_muramana' and TUNING.MOD_LOL_WP.MURAMANA.SKILL_FEAR.SAN_PERCENT) or (weapon_prefab == 'lol_wp_s19_muramana_upgrade' and TUNING.MOD_LOL_WP.MURAMANA.UPGRADE.SKILL_FEAR.SAN_PERCENT) or 0
+            --     local planar_extra_lol_wp_s19_archangelstaff_san_percent = (weapon_prefab == 'lol_wp_s19_muramana_upgrade' and TUNING.MOD_LOL_WP.MURAMANA.UPGRADE.SKILL_SLASH.SAN_PERCENT) or 0
+            --     if physics_extra_lol_wp_s19_archangelstaff_san_percent > 0 then
+            --         local extra_physics_dmg = sanity_max * physics_extra_lol_wp_s19_archangelstaff_san_percent
+            --         damage = (damage or 0) + extra_physics_dmg
+            --     end
+            --     if planar_extra_lol_wp_s19_archangelstaff_san_percent > 0 then
+            --         local extra_planar_dmg = sanity_max * planar_extra_lol_wp_s19_archangelstaff_san_percent
+            --         if spdamage then
+            --             spdamage.planar = (spdamage.planar or 0) + extra_planar_dmg
+            --         end
+            --     end
+            -- end
 
             -- s19 凛冬  被动：【冰川增幅】与兰德里的折磨同时装备时获得套装效果，每次攻击造成额外20%减速，并使该目标伤害降低20%，持续1.5秒，无冷却。
             if attacker and victim then
